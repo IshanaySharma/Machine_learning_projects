@@ -1,0 +1,34 @@
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+data = pd.read_csv("D:/Python Datasets/house.csv")
+data.head()
+data.tail()
+data.columns
+data.shape
+data.describe()
+
+# checking for null values
+data.isnull.sum()
+
+# visualisation
+sns.replot(x='price', y='bedrooms', data=data)
+sns.replot(x='price', y='bathrooms', data=data)
+sns.replot(x='price', y='sqft_living', data=data)
+sns.replot(x='price', y='floors', data=data)
+
+# model
+
+from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split
+
+train = data.drop(['price', 'id', 'date'], axis=1)
+test = data['price']
+X_train, X_test, y_train, y_test = train_test_split(train, test,test_size=0.3, random_state=2)
+regr = LinearRegression()
+regr.fit(X_train, y_train)
+pred = regr.predict(X_test)
+print(pred)
+
+
