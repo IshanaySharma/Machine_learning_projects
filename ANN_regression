@@ -1,0 +1,47 @@
+Recommended practice for Neural networks:
+1) Activation function for hidden layers - relu, leaky_relu
+2) Activation function for last layer - linear
+3) Optimizer - adam, rmsprop, sgd
+4) Loss/Cost function- MSE(Mean square error), MAE
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('CarPrice_Assignment.csv')
+df.head()
+df.shape
+df.isnull().sum()
+
+x = df.iloc[:,:-1] ##used to select the rows and columns ':' means all the rows and ':-1' means all the columns except the last one
+y = df.iloc[:,-1]
+print(x.shape, y.shape)
+x.head()
+y.head()
+
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test = train_test_split(x,y, test_size= 0.25)
+print(x_train.shape)
+print(x_test.shape)
+print(y_train.shape)
+print(y_test.shape)
+
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, LeakyReLU
+from tensorflow.keras import optimizers
+from tensorflow.keras import activations
+from tensorflow.keras import losses
+
+#List of optimizers - ['Adadelta','Adagrad','Adam','Adamax','Nadam','Optimizer','RMSprop','SGD']
+#List of activation functions - ['relu','elu','selu','serialize','sigmoid','softmax','softplus','softsign','swish','tanh']
+#List of loss functions - ['BinaryCrossentropy','BinaryFocalCrossentropy','CategoricalCrossentropy','CategoricalHinge','CosineSimilarity','Hinge','Huber','KLD','KLDivergence','LogCosh','Loss','MAE','MAPE','MSE','MSLE','MeanAbsoluteError','MeanAbsolutePercentageError','MeanSquaredError','MeanSquaredLogarithmicError','Poisson','Reduction','SparseCategoricalCrossentropy',
+#'SquaredHinge']
+ 
+#Building the model
+m1 = Sequential()
+m1.add(Dense(50, input_dim=25,activation='relu')) # Hidden Layer 1, imput dimension is 25 since 25 columns in x_train.shape
+m1.add(Dense(25,activation='relu')) # Hidden Layer 2
+m1.add(Dense(1))   #If no activation is metioned activation is 'linear' #Output Layer
+
+m1.compile(optimizer='adam',loss='mse')
